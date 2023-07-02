@@ -1,0 +1,64 @@
+import os
+import re
+import docx2txt
+from pdfminer.high_level import extract_text
+
+
+def extract_text_from_docx(file_path):
+    text = docx2txt.process(file_path)
+    return text
+
+
+def extract_text_from_pdf(file_path):
+    text = extract_text(file_path)
+    return text
+
+
+def extract_email_addresses(text):
+    email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    emails = re.findall(email_regex, text)
+    return emails
+
+
+def extract_phone_numbers(text):
+    phone_regex = r'(\+\d{1,2}\s?)?(\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}'
+    phone_numbers = re.findall(phone_regex, text)
+    return phone_numbers
+
+
+def parse_resume(file_path):
+    file_extension = os.path.splitext(file_path)[1]
+    if file_extension == '.docx':
+        text = extract_text_from_docx(file_path)
+    elif file_extension == '.pdf':
+        text = extract_text_from_pdf(file_path)
+    else:
+        print("Unsupported file format")
+        return
+
+    email_addresses = extract_email_addresses(text)
+    phone_numbers = extract_phone_numbers(text)
+
+    # You can add more parsing logic here to extract other information
+    # such as name, education, experience, skills, etc.
+
+    parsed_data = {
+        'email_addresses': email_addresses,
+        'phone_numbers': phone_numbers,
+        # Add more parsed data fields as needed
+    }
+
+    return parsed_data
+
+
+# Usage example
+resume_file = 'resume.docx'
+parsed_data = parse_resume(resume_file)
+
+print("Email Addresses:")
+for email in parsed_data['email_addresses']:
+    print(email)
+
+print("Phone Numbers:")
+for phone in parsed_data['phone_numbers']:
+    print(phone)
