@@ -29,36 +29,37 @@ def extract_phone_numbers(text):
 def parse_resume(file_path):
     file_extension = os.path.splitext(file_path)[1]
     if file_extension == '.docx':
-        text = extract_text_from_docx(file_path)
+        text = docx_word(file_path)
     elif file_extension == '.pdf':
-        text = extract_text_from_pdf(file_path)
+        text = pdf_word(file_path)
     else:
-        print("Unsupported file format")
+        print("The unsupported file format/ huge error")
         return
 
     email_addresses = extract_email_addresses(text)
     phone_numbers = extract_phone_numbers(text)
 
-    # You can add more parsing logic here to extract other information
-    # such as name, education, experience, skills, etc.
+   
 
     parsed_data = {
         'email_addresses': email_addresses,
         'phone_numbers': phone_numbers,
-        # Add more parsed data fields as needed
+        
     }
 
     return parsed_data
 
 
-# Usage example
+
 resume_file = 'resume.docx'
-parsed_data = parse_resume(resume_file)
+parsed_data = VS_resume(resume_file)
 
 print("Email Addresses:")
-for email in parsed_data['email_addresses']:
+for email in VS_data['email_addresses']:
     print(email)
 
 print("Phone Numbers:")
-for phone in parsed_data['phone_numbers']:
+for phone in VS_data['phone_numbers']:
     print(phone)
+
+
