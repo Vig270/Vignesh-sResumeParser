@@ -38,7 +38,7 @@ def parse_resume(file_path):
 
     email_addresses = extract_email_addresses(text)
     phone_numbers = extract_phone_numbers(text)
-
+    linkin = extract_linkin(text)
    
 
     parsed_data = {
@@ -61,5 +61,9 @@ for email in VS_data['email_addresses']:
 print("Phone Numbers:")
 for phone in VS_data['phone_numbers']:
     print(phone)
+
+print("Linkin:")
+for phone in VS_data['linkin']:
+    print(linkin)
 
 
